@@ -1,6 +1,6 @@
-baseURL = "https://s-furi.github.io/hugo-slides-template/"
+baseURL = "https://s-furi.github.io/lsp-presentation"
 languageCode = "en-us"
-title = "Hugo Slides Template"
+title = "Language Server Protocol Presentation"
 theme = ["github.com/joshed-io/reveal-hugo"]
 [markup.goldmark.renderer]
 unsafe = true
