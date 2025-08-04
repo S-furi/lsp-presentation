@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+	<meta name="generator" content="Hugo 0.148.2"><script src="/-Presentation/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=-Presentation/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<title>LSP Presentation - JetBrains Internship Summer 2025</title>
+
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/-Presentation/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/-Presentation/reveal-js/dist/reveal.css"><link rel="stylesheet" href="/-Presentation/css/robot-lung.css" id="theme"><link rel="stylesheet" href="/-Presentation/highlight-js/zenburn.min.css">
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><p style="font-size: 0.8em"><i>JetBrains Internship, Summer 2025</i></p>
+<p style="font-size: 0.6em; font-family: monospace">Zofia Zuzanna Wiora, Stefano Furi</p>
+<br/>
+<h1 id="language-server-protocol">Language Server Protocol</h1>
+<p><a href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/">https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/</a></p>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src=/-Presentation/reveal-hugo/object-assign.js></script>
+
+
+<script src="/-Presentation/reveal-js/dist/reveal.js"></script>
+
+
+  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/notes/notes.js"></script>
+  
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+  var revealHugoSiteParams = {"custom_theme":"css/robot-lung.css","height":"878","highlight_theme":"zenburn","history":true,"margin":0.2,"slide_number":true,"transition":"slide","transition_speed":"fast","width":"1352"};
+  var revealHugoPageParams = {};
+
+  var revealHugoPlugins = {
+    
+    plugins: [RevealMarkdown,RevealHighlight,RevealZoom,RevealNotes]
+  };
+
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+    
+    
+  </body>
+</html>

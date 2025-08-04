@@ -1,0 +1,29 @@
+baseURL = "https://s-furi.github.io/hugo-slides-template/"
+languageCode = "en-us"
+title = "Hugo Slides Template"
+theme = ["github.com/joshed-io/reveal-hugo"]
+[markup.goldmark.renderer]
+unsafe = true
+
+[params]
+author = "Stefano Furi"
+
+[outputFormats.Reveal]
+baseName = "index"
+mediaType = "text/html"
+isHTML = true
+
+[markup.highlight]
+style = "tango"
+
+[params.reveal_hugo]
+margin = 0.2
+custom_theme = "css/robot-lung.css"
+transition = "slide"
+transition_speed = "fast"
+highlight_theme = "zenburn"
+history = true
+slide_number = true
+width = '1352'
+height = '878'
+
