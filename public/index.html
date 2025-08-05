@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<meta name="generator" content="Hugo 0.148.2"><script src="/-Presentation/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=-Presentation/livereload" data-no-instant defer></script>
+	<meta name="generator" content="Hugo 0.148.2"><script src="/lsp-presentation/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=lsp-presentation/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
 <title>LSP Presentation - JetBrains Internship Summer 2025</title>
 
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/-Presentation/reveal-js/dist/reset.css">
-<link rel="stylesheet" href="/-Presentation/reveal-js/dist/reveal.css"><link rel="stylesheet" href="/-Presentation/css/robot-lung.css" id="theme"><link rel="stylesheet" href="/-Presentation/highlight-js/zenburn.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/lsp-presentation/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/lsp-presentation/reveal-js/dist/reveal.css"><link rel="stylesheet" href="/lsp-presentation/css/robot-lung.css" id="theme"><link rel="stylesheet" href="/lsp-presentation/highlight-js/zenburn.min.css">
   </head>
   <body>
     
@@ -26,24 +26,110 @@
 
   
 
+    <section><h2 id="base-protocol">Base Protocol</h2>
+<p>The base protocol consists of a header and a content part (comparable to HTTP).</p>
+</section><section>
+<h3 id="header-part">Header Part</h3>
+<p>Composed of fileds <code>&lt;name&gt;: &lt;value&gt;</code>, terminated with <code>\r\n</code>. Currently, only two fields are supported</p>
+<table>
+  <thead>
+      <tr>
+          <th>Name</th>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Content-Length</td>
+          <td>number</td>
+          <td>length of content in bytes (<strong>required</strong>)</td>
+      </tr>
+      <tr>
+          <td>Content-Type</td>
+          <td>string</td>
+          <td>mime type of content part</td>
+      </tr>
+  </tbody>
+</table>
+<p>If no <code>Content-Type</code> is provided, default is <code>application/vscode-jsonrpc;charset=utf-8</code></p>
+</section><section>
+<h3 id="content-part">Content Part</h3>
+<p>Content part begins after header, marked with a double <code>\r\n</code> (like HTTP), and uses <strong><code>JSON-RPC</code></strong> (<a href="https://www.jsonrpc.org">https://www.jsonrpc.org</a>)
+to describe <em>requests</em>, <em>responses</em> and <em>notifications</em>.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;textDocument/completion&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+
+
+<section data-shortcode-section>
+<h3 id="json-rpc">JSON-RPC</h3>
+<p>JSON-RPC is a stateless, lightweight RPC protocol, where an RPC <em>call</em> is a JSON object composed as follows:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;nameOfTheMethod&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#a40000">...</span> <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;clientDefinedIdentifier&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h3 id="json-rpc-1">JSON-RPC</h3>
+<p>When a call is made, a <em>response</em> is composed of:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;result&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#a40000">Any</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;error?&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;code&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#a40000">integer</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;message&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;errorMsg&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;data&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#a40000">Any</span> <span style="color:#8f5902;font-style:italic">// additional info
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>  <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;sameValueAsClientDefinedIdInRequest&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h3 id="json-rpc-2">JSON-RPC</h3>
+<p>Requests where there is a lack of interest in a response from the sender are called <em>notifications</em>. A notification is like a request, but it misses <code>id</code> parameter. Special kind of notifications include:</p>
+<ul>
+<li>method <code>$/cancelRequest</code></li>
+<li>method <code>$/progress</code></li>
+</ul>
+
+</section>
+</section><section>
+</section>
+    <section><h2 id="language-server-protocol">Language Server Protocol</h2>
+<p>Defines a set of JSON-RPC requests, response and notification messages in order
+to standardize communication between developement tools and language specific
+servers.</p>
+</section><section>
+<h3 id="capabilities">Capabilities</h3>
+<p>A language server and a client can have different sets of capabilities, i.e. groups of <strong>language features</strong>. This set of capabilities is exchanged between client and server in the <em>initialization phase</em> in order to make them agree over which features are supported in the session.</p>
+</section>
 
 </div>
       
 
     </div>
-<script type="text/javascript" src=/-Presentation/reveal-hugo/object-assign.js></script>
+<script type="text/javascript" src=/lsp-presentation/reveal-hugo/object-assign.js></script>
 
 
-<script src="/-Presentation/reveal-js/dist/reveal.js"></script>
+<script src="/lsp-presentation/reveal-js/dist/reveal.js"></script>
 
 
-  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/markdown/markdown.js"></script>
+  <script type="text/javascript" src="/lsp-presentation/reveal-js/plugin/markdown/markdown.js"></script>
   
-  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/highlight/highlight.js"></script>
+  <script type="text/javascript" src="/lsp-presentation/reveal-js/plugin/highlight/highlight.js"></script>
   
-  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/zoom/zoom.js"></script>
+  <script type="text/javascript" src="/lsp-presentation/reveal-js/plugin/zoom/zoom.js"></script>
   
-  <script type="text/javascript" src="/-Presentation/reveal-js/plugin/notes/notes.js"></script>
+  <script type="text/javascript" src="/lsp-presentation/reveal-js/plugin/notes/notes.js"></script>
   
 <script type="text/javascript">
   
@@ -83,6 +169,15 @@
 
 
 
+
+  
+  
+
+  
+  
+
+  
+  
 
   
   

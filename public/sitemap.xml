@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/-Presentation/categories/</loc>
+    <loc>http://localhost:1313/lsp-presentation/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/-Presentation/</loc>
+    <loc>http://localhost:1313/lsp-presentation/home/</loc>
   </url><url>
-    <loc>http://localhost:1313/-Presentation/tags/</loc>
+    <loc>http://localhost:1313/lsp-presentation/</loc>
+  </url><url>
+    <loc>http://localhost:1313/lsp-presentation/home/sec-1/</loc>
+  </url><url>
+    <loc>http://localhost:1313/lsp-presentation/home/sec-2/</loc>
+  </url><url>
+    <loc>http://localhost:1313/lsp-presentation/tags/</loc>
   </url>
 </urlset>
