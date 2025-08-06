@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Homes on Language Server Protocol Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/</link><description>Recent content in Homes on Language Server Protocol Presentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://s-furi.github.io/lsp-presentation/home/index.xml" rel="self" type="application/rss+xml"/><item><title>LSP Presentation - JetBrains Internship Summer 2025</title><link>https://s-furi.github.io/lsp-presentation/home/sec-1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-1/</guid><description>&lt;h2 id="base-protocol">Base Protocol&lt;/h2>
 &lt;p>The base protocol consists of a header and a content part (comparable to HTTP).&lt;/p>
-&lt;hr>
-&lt;h3 id="header-part">Header Part&lt;/h3>
-&lt;p>Composed of fileds &lt;code>&amp;lt;name&amp;gt;: &amp;lt;value&amp;gt;&lt;/code>, terminated with &lt;code>\r\n&lt;/code>. Currently, only two fields are supported&lt;/p>
-&lt;table>
- &lt;thead>
- &lt;tr>
- &lt;th>Name&lt;/th>
- &lt;th>Value&lt;/th>
- &lt;th>Description&lt;/th>
- &lt;/tr>
- &lt;/thead>
- &lt;tbody>
- &lt;tr>
- &lt;td>Content-Length&lt;/td>
- &lt;td>number&lt;/td>
- &lt;td>length of content in bytes (&lt;strong>required&lt;/strong>)&lt;/td>
- &lt;/tr>
- &lt;tr>
- &lt;td>Content-Type&lt;/td>
- &lt;td>string&lt;/td>
- &lt;td>mime type of content part&lt;/td>
- &lt;/tr>
- &lt;/tbody>
-&lt;/table>
-&lt;p>If no &lt;code>Content-Type&lt;/code> is provided, default is &lt;code>application/vscode-jsonrpc;charset=utf-8&lt;/code>&lt;/p>
-&lt;hr>
-&lt;h3 id="content-part">Content Part&lt;/h3>
-&lt;p>Content part begins after header, marked with a double &lt;code>\r\n&lt;/code> (like HTTP), and uses &lt;strong>&lt;code>JSON-RPC&lt;/code>&lt;/strong> (&lt;a href="https://www.jsonrpc.org">https://www.jsonrpc.org&lt;/a>)
-to describe &lt;em>requests&lt;/em>, &lt;em>responses&lt;/em> and &lt;em>notifications&lt;/em>.&lt;/p></description></item><item><title>LSP Presentation - JetBrains Internship Summer 2025</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="language-server-protocol">Language Server Protocol&lt;/h2>
+&lt;p>&lt;strong>Header&lt;/strong> &lt;em>must&lt;/em> contain the &lt;code>Content-Length&lt;/code> value, plus it can include a &lt;code>Content-Type&lt;/code>.
+If no &lt;code>Content-Type&lt;/code> is provided, default is &lt;code>application/vscode-jsonrpc;charset=utf-8&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>Content part&lt;/strong> begins after the header, marked with a double &lt;code>\r\n&lt;/code> (like HTTP), and uses &lt;strong>&lt;code>JSON-RPC&lt;/code>&lt;/strong> (&lt;a href="https://www.jsonrpc.org">https://www.jsonrpc.org&lt;/a>)
+to describe &lt;em>requests&lt;/em>, &lt;em>responses&lt;/em> and &lt;em>notifications&lt;/em>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">Content-Length:&lt;/span> &lt;span style="color:#a40000">...\r\n&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">\r\n&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;jsonrpc&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;2.0&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;id&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;method&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;textDocument/completion&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;params&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a40000">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+
+
+&lt;section data-shortcode-section>
+&lt;h3 id="json-rpc">JSON-RPC&lt;/h3>
+&lt;p>JSON-RPC is a stateless, lightweight RPC protocol, where an RPC &lt;em>call&lt;/em> is a JSON object composed as follows:&lt;/p></description></item><item><title>LSP Presentation - JetBrains Internship Summer 2025</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="language-server-protocol">Language Server Protocol&lt;/h2>
 &lt;p>Defines a set of JSON-RPC requests, response and notification messages in order
 to standardize communication between developement tools and language specific
 servers.&lt;/p>
