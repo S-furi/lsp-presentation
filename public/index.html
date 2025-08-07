@@ -17,10 +17,7 @@
       <div class="slides">
   
 
-    <section><p style="font-size: 0.8em"><i>JetBrains Internship, Summer 2025</i></p>
-<p style="font-size: 0.6em; font-family: monospace">Zofia Zuzanna Wiora, Stefano Furi</p>
-<br/>
-<h1 id="language-server-protocol">Language Server Protocol</h1>
+    <section><h1 id="language-server-protocol">Language Server Protocol</h1>
 <p><a href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/">https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/</a></p>
 </section>
 
@@ -28,36 +25,10 @@
 
     <section><h2 id="base-protocol">Base Protocol</h2>
 <p>The base protocol consists of a header and a content part (comparable to HTTP).</p>
-</section><section>
-<h3 id="header-part">Header Part</h3>
-<p>Composed of fileds <code>&lt;name&gt;: &lt;value&gt;</code>, terminated with <code>\r\n</code>. Currently, only two fields are supported</p>
-<table>
-  <thead>
-      <tr>
-          <th>Name</th>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>Content-Length</td>
-          <td>number</td>
-          <td>length of content in bytes (<strong>required</strong>)</td>
-      </tr>
-      <tr>
-          <td>Content-Type</td>
-          <td>string</td>
-          <td>mime type of content part</td>
-      </tr>
-  </tbody>
-</table>
-<p>If no <code>Content-Type</code> is provided, default is <code>application/vscode-jsonrpc;charset=utf-8</code></p>
-</section><section>
-<h3 id="content-part">Content Part</h3>
-<p>Content part begins after header, marked with a double <code>\r\n</code> (like HTTP), and uses <strong><code>JSON-RPC</code></strong> (<a href="https://www.jsonrpc.org">https://www.jsonrpc.org</a>)
+<p><strong>Header</strong> <em>must</em> contain the <code>Content-Length</code> value, plus it can include a <code>Content-Type</code>.
+If no <code>Content-Type</code> is provided, default is <code>application/vscode-jsonrpc;charset=utf-8</code>.</p>
+<p><strong>Content part</strong> begins after the header, marked with a double <code>\r\n</code> (like HTTP), and uses <strong><code>JSON-RPC</code></strong> (<a href="https://www.jsonrpc.org">https://www.jsonrpc.org</a>)
 to describe <em>requests</em>, <em>responses</em> and <em>notifications</em>.</p>
-<p>Example:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
 </span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
@@ -101,6 +72,68 @@ to describe <em>requests</em>, <em>responses</em> and <em>notifications</em>.</p
 <li>method <code>$/progress</code></li>
 </ul>
 
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="a-simple-kotlin-example-2">A Simple Kotlin Example (2)</h3>
+<p>An <strong><code>initialize</code></strong> message could be simply modelled as the following data class.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@Serializable</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">data</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">InitializeMessage</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">jsonrpc</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">String</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">id</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">method</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">String</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;initialize&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Map</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">String</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Map</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">String</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">String</span><span style="color:#000;font-weight:bold">?&gt;?&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">mapOf</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">&#34;processId&#34;</span> <span style="color:#000">to</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">&#34;workspaceFolders&#34;</span> <span style="color:#000">to</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">&#34;capabilities&#34;</span> <span style="color:#000">to</span> <span style="color:#000">emptyMap</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">buildJSONRPCMessage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">msg</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">InitializeMessage</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">ByteArray</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">body</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Json</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">encodeToString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">msg</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#4e9a06">&#34;Content-Length: </span><span style="color:#4e9a06">${body.length}</span><span style="color:#4e9a06">\r\n\r\n</span><span style="color:#4e9a06">$body</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toByteArray</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Charsets</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF_8</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h3 id="a-simple-kotlin-example">A Simple Kotlin Example</h3>
+<p>We can communicate with the language server by means of a simple TCP connection, sending an <code>initialize</code> request and receiving server&rsquo;s response </br> (reading 4 Kb for the sake of simplicity)</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">initializeMessage</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">buildJSONRPCMessage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">InitializeMessage</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">Socket</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;127.0.0.1&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">9999</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">use</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#000">client</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">write</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initializeMessage</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">buffer</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">ByteArray</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">4096</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">bytesRead</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">inputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">read</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">buffer</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">response</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">String</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">buffer</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">bytesRead</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Charsets</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF_8</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">assertTrue</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">response</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">isNotEmpty</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">response</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Querying the Kotlin-LSP (<a href="https://github.com/Kotlin/kotlin-lsp">https://github.com/Kotlin/kotlin-lsp</a>) returns a result like:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#0000cf;font-weight:bold">3462</span>
+</span></span><span style="display:flex;"><span><span style="color:#a40000">Content-Type:</span> <span style="color:#a40000">application/json-rpc;</span> <span style="color:#a40000">charset=utf</span><span style="color:#0000cf;font-weight:bold">-8</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;result&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">&#34;capabilities&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;textDocumentSync&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;completionProvider&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">&#34;kind&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;com.jetbrains.lsp.protocol.CompletionRegistrationOptionsImpl&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">&#34;triggerCharacters&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#4e9a06">&#34;.&#34;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">&#34;serverInfo&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;name&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Kotlin LSP by JetBrains&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;version&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;0.1&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div>
 </section>
 </section><section>
 </section>
