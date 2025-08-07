@@ -1,5 +1,5 @@
 +++
-title = "LSP Presentation - JetBrains Internship Summer 2025"
+title = "Language Server Protocol - Presentation"
 outputs = ["Reveal"]
 +++
 
