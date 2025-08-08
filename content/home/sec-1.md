@@ -83,6 +83,7 @@ Content-Length: ...\r\n
 ## Sources
 
 * https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2
+* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
 
 ---
 
