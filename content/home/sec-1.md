@@ -8,7 +8,7 @@ outputs = ["Reveal"]
 * Standard approach: a new implementation for each language and editor
 * Better approach: language server communicating with editor using standarized protocol
 
-![How it works](img/lsp-idea.png)
+![How it works](img/idea.png)
 
 {{< note >}}
 * IDE or simpler editor.
@@ -42,12 +42,66 @@ Content-Length: ...\r\n
 {{< /note >}}
 
 ---
+{{% section %}}
+
+## Key concepts of LSP
+
+---
+
+### Overview
+
+* **Client**: editor
+* **Server**: language server
+* Exchange through stdio or socket
+
+![Exchange of messages](img/messages.png)
+
+{{< note >}}
+* Connection maintained until the exit notification is sent
+{{< /note >}}
+
+---
+
+### Typical implementation
+
+
+
+### Messages
+
+1. **Request**
+2. **Response**
+3. **Notification**
+
+---
+
+### Capabilities
+
+{{% /section %}}
+
+---
 
 ## Sources
 
-* https://miro.medium.com/v2/resize:fit:1400/1*NWvQepJvLQJLZLkLbNnEzA.png
+* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # OLD
 

@@ -35,7 +35,7 @@ LSP in short
 <li>Standard approach: a new implementation for each language and editor</li>
 <li>Better approach: language server communicating with editor using standarized protocol</li>
 </ul>
-<p><img src="img/lsp-idea.png" alt="How it works"></p>
+<p><img src="img/idea.png" alt="How it works"></p>
 
 
 
@@ -69,9 +69,37 @@ LSP in short
 * RPC (Remote Procedure Call) is a protocol that allows a program to execute a procedure or function on a remote computer or server as if it were a local call, simplifying distributed application development by abstracting away the complexities of network communication.
 </aside>
 </section><section>
+
+
+<section data-shortcode-section>
+<h2 id="key-concepts-of-lsp">Key concepts of LSP</h2>
+</section><section>
+<h3 id="overview">Overview</h3>
+<ul>
+<li><strong>Client</strong>: editor</li>
+<li><strong>Server</strong>: language server</li>
+<li>Exchange through stdio or socket</li>
+</ul>
+<p><img src="img/messages.png" alt="Exchange of messages"></p>
+<aside class="notes">
+* Connection maintained until the exit notification is sent
+</aside>
+</section><section>
+<h3 id="typical-implementation">Typical implementation</h3>
+<h3 id="messages">Messages</h3>
+<ol>
+<li><strong>Request</strong></li>
+<li><strong>Response</strong></li>
+<li><strong>Notification</strong></li>
+</ol>
+</section><section>
+<h3 id="capabilities">Capabilities</h3>
+
+</section>
+</section><section>
 <h2 id="sources">Sources</h2>
 <ul>
-<li><a href="https://miro.medium.com/v2/resize:fit:1400/1">https://miro.medium.com/v2/resize:fit:1400/1</a>*NWvQepJvLQJLZLkLbNnEzA.png</li>
+<li><a href="https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2">https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2</a></li>
 </ul>
 </section><section>
 <h1 id="old">OLD</h1>
