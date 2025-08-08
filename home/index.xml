@@ -4,7 +4,7 @@
 &lt;li>Standard approach: a new implementation for each language and editor&lt;/li>
 &lt;li>Better approach: language server communicating with editor using standarized protocol&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="img/lsp-idea.png" alt="How it works">&lt;/p>
+&lt;p>&lt;img src="img/idea.png" alt="How it works">&lt;/p>
 
 
 
@@ -38,11 +38,15 @@
 * RPC (Remote Procedure Call) is a protocol that allows a program to execute a procedure or function on a remote computer or server as if it were a local call, simplifying distributed application development by abstracting away the complexities of network communication.
 &lt;/aside>
 &lt;hr>
-&lt;h2 id="sources">Sources&lt;/h2>
-&lt;ul>
-&lt;li>&lt;a href="https://miro.medium.com/v2/resize:fit:1400/1">https://miro.medium.com/v2/resize:fit:1400/1&lt;/a>*NWvQepJvLQJLZLkLbNnEzA.png&lt;/li>
-&lt;/ul>
+
+
+&lt;section data-shortcode-section>
+&lt;h2 id="key-concepts-of-lsp">Key concepts of LSP&lt;/h2>
 &lt;hr>
-&lt;h1 id="old">OLD&lt;/h1>
-&lt;h2 id="base-protocol">Base Protocol&lt;/h2>
-&lt;p>The base protocol consists of a header and a content part (comparable to HTTP).&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2></description></item></channel></rss>
+&lt;h3 id="overview">Overview&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>Client&lt;/strong>: editor&lt;/li>
+&lt;li>&lt;strong>Server&lt;/strong>: language server&lt;/li>
+&lt;li>Exchange through stdio or socket&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="img/messages.png" alt="Exchange of messages">&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2></description></item></channel></rss>
