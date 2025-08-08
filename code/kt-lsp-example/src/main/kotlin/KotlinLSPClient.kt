@@ -26,6 +26,7 @@ import org.eclipse.lsp4j.TextEdit
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier
 import org.eclipse.lsp4j.WorkspaceClientCapabilities
 import org.eclipse.lsp4j.WorkspaceFolder
+import org.eclipse.lsp4j.WorkspaceSymbolParams
 import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import org.eclipse.lsp4j.launch.LSPLauncher
@@ -82,6 +83,9 @@ class KotlinLSPClient {
         val params = ReferenceParams(TextDocumentIdentifier(uri.toString()), position, ReferenceContext(true))
         return languageServer.textDocumentService.references(params)
     }
+
+    fun workspaceSymbol(query: String = "") =
+        languageServer.workspaceService.symbol(WorkspaceSymbolParams(query))
 
     fun openDocument(uri: URI) {
         val content = Files.readString(Paths.get(uri))
