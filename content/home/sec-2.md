@@ -223,12 +223,6 @@ languageServer.textDocumentService.didClose(params)
 
 ---
 
-### Recap Scheme
-
-<img src="img/lsp-user-editor-server-interactions.png" height=850>
-
----
-
 ### `documentText/Completion`
 
 <div style="text-align: justify">
@@ -254,3 +248,9 @@ fun getCompletion(
 ```
 
 </div>
+
+---
+
+### Recap Scheme
+
+<img src="img/lsp-user-editor-server-interactions.png" height=850>
