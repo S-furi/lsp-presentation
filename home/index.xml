@@ -49,4 +49,25 @@
 &lt;li>&lt;strong>Server&lt;/strong>: language server&lt;/li>
 &lt;li>Message exchange through stdio or socket&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="img/messages.png" alt="Exchange of messages">&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2></description></item></channel></rss>
+&lt;p>&lt;img src="img/messages.png" alt="Exchange of messages">&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2>
+&lt;p>(Leveraging kotlin-lsp and LSP4J)&lt;/p>
+&lt;hr>
+&lt;h3 id="server-connection">Server Connection&lt;/h3>
+&lt;p>Accomplished by means of Sockets input and output streams&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-kt" data-lang="kt">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">val&lt;/span> &lt;span style="color:#000">socket&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000">Socket&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;127.0.0.1&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">9999&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">val&lt;/span> &lt;span style="color:#000">launcher&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">LSPLauncher&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">createClientLauncher&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">languageClient&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">socket&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">inputStream&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">socket&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">outputStream&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">launcher&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">startListening&lt;/span>&lt;span style="color:#000;font-weight:bold">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">val&lt;/span> &lt;span style="color:#000">lspServer&lt;/span> &lt;span style="color:#000;font-weight:bold">=&lt;/span> &lt;span style="color:#000">launcher&lt;/span>&lt;span style="color:#000;font-weight:bold">.&lt;/span>&lt;span style="color:#000">remoteProxy&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h3 id="registering-a-workspace">Registering a Workspace&lt;/h3>
+&lt;p>A Workspace is the location of a Kotlin project. As of today, kotlin-lsp
+(&lt;a href="https://github.com/Kotlin/kotlin-lsp">https://github.com/Kotlin/kotlin-lsp&lt;/a>) supports Gradle Kotlin/JVM projects only,
+meaning that valid workspaces are only kotlin projects with such limitations.
+Due to this we could not use it with standalone files.&lt;/p></description></item></channel></rss>
