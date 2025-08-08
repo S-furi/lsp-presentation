@@ -2,6 +2,19 @@
 title = "Language Server Protocol - Presentation"
 outputs = ["Reveal"]
 +++
+## Why do we need LSP?
+
+* Editor should provide language support
+* Standard approach: a new implementation for each editor
+* Better approach: language server communicating with editor using standarized protocol
+
+{{< note >}}
+* IDE or simpler editor.
+* autocompletion, goto definition, or documentation on hover
+{{< /note >}}
+
+---
+# OLD
 
 ## Base Protocol
 

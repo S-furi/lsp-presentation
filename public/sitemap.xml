@@ -6,11 +6,11 @@
   </url><url>
     <loc>http://localhost:1313/lsp-presentation/home/</loc>
   </url><url>
-    <loc>http://localhost:1313/lsp-presentation/</loc>
-  </url><url>
     <loc>http://localhost:1313/lsp-presentation/home/sec-1/</loc>
   </url><url>
     <loc>http://localhost:1313/lsp-presentation/home/sec-2/</loc>
+  </url><url>
+    <loc>http://localhost:1313/lsp-presentation/</loc>
   </url><url>
     <loc>http://localhost:1313/lsp-presentation/tags/</loc>
   </url>

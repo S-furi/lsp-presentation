@@ -19,11 +19,32 @@
 
     <section><h1 id="language-server-protocol">Language Server Protocol</h1>
 <p><a href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/">https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/</a></p>
+
+
+
+<aside class="notes">
+LSP in short
+</aside>
 </section>
 
   
 
-    <section><h2 id="base-protocol">Base Protocol</h2>
+    <section><h2 id="why-do-we-need-lsp">Why do we need LSP?</h2>
+<ul>
+<li>Editor should provide language support</li>
+<li>Standard approach: a new implementation for each editor</li>
+<li>Better approach: language server communicating with editor using standarized protocol</li>
+</ul>
+
+
+
+<aside class="notes">
+* IDE or simpler editor.
+* autocompletion, goto definition, or documentation on hover
+</aside>
+</section><section>
+<h1 id="old">OLD</h1>
+<h2 id="base-protocol">Base Protocol</h2>
 <p>The base protocol consists of a header and a content part (comparable to HTTP).</p>
 <p><strong>Header</strong> <em>must</em> contain the <code>Content-Length</code> value, plus it can include a <code>Content-Type</code>.
 If no <code>Content-Type</code> is provided, default is <code>application/vscode-jsonrpc;charset=utf-8</code>.</p>
