@@ -1,3 +1,4 @@
+import org.eclipse.lsp4j.Position
 import java.nio.file.Paths
 import kotlin.system.exitProcess
 
@@ -9,6 +10,10 @@ fun main() {
     listOf(
         { client.init(root.path).get() },
         { client.openDocument(root.resolve("src/main/kotlin/Main.kt")) },
+        {
+            val completions = client.getCompletion(root.resolve("src/main/kotlin/CompleteMe.kt"), Position(1, 12)).get()
+            completions.apply { right?.items?.forEach { println(it.label) } }
+        },
         { client.changeDocument(root.resolve("src/main/kotlin/Main.kt"), "fun main() {\n    println(\"Hello World!\")\n}") },
         { client.closeDocument(root.resolve("src/main/kotlin/Main.kt")) },
         { client.shutdown().thenRun { client.exit() } },
