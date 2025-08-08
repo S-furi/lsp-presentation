@@ -9,13 +9,19 @@ import org.eclipse.lsp4j.CompletionTriggerKind
 import org.eclipse.lsp4j.DidChangeTextDocumentParams
 import org.eclipse.lsp4j.DidCloseTextDocumentParams
 import org.eclipse.lsp4j.DidOpenTextDocumentParams
+import org.eclipse.lsp4j.Hover
+import org.eclipse.lsp4j.HoverParams
 import org.eclipse.lsp4j.InitializeParams
 import org.eclipse.lsp4j.InitializedParams
+import org.eclipse.lsp4j.Location
 import org.eclipse.lsp4j.Position
+import org.eclipse.lsp4j.ReferenceContext
+import org.eclipse.lsp4j.ReferenceParams
 import org.eclipse.lsp4j.TextDocumentClientCapabilities
 import org.eclipse.lsp4j.TextDocumentContentChangeEvent
 import org.eclipse.lsp4j.TextDocumentIdentifier
 import org.eclipse.lsp4j.TextDocumentItem
+import org.eclipse.lsp4j.TextDocumentPositionParams
 import org.eclipse.lsp4j.TextEdit
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier
 import org.eclipse.lsp4j.WorkspaceClientCapabilities
@@ -65,6 +71,16 @@ class KotlinLSPClient {
         val params = CompletionParams(TextDocumentIdentifier(uri.toString()), position, context)
         return languageServer.textDocumentService.completion(params)
             ?: CompletableFuture.completedFuture(Either.forLeft(emptyList()))
+    }
+
+    fun hover(uri: URI, position: Position): CompletableFuture<Hover?> {
+        val params = HoverParams(TextDocumentIdentifier(uri.toString()), position)
+        return languageServer.textDocumentService.hover(params)
+    }
+
+    fun findReferences(uri: URI, position: Position): CompletableFuture<List<Location>> {
+        val params = ReferenceParams(TextDocumentIdentifier(uri.toString()), position, ReferenceContext(true))
+        return languageServer.textDocumentService.references(params)
     }
 
     fun openDocument(uri: URI) {
