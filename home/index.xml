@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Homes on Language Server Protocol Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/</link><description>Recent content in Homes on Language Server Protocol Presentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://s-furi.github.io/lsp-presentation/home/index.xml" rel="self" type="application/rss+xml"/><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-1/</guid><description>&lt;h2 id="why-do-we-need-lsp">Why do we need LSP?&lt;/h2>
 &lt;ul>
-&lt;li>Editor should provide language support&lt;/li>
-&lt;li>Standard approach: a new implementation for each editor&lt;/li>
+&lt;li>Code editor should provide language support&lt;/li>
+&lt;li>Standard approach: a new implementation for each language and editor&lt;/li>
 &lt;li>Better approach: language server communicating with editor using standarized protocol&lt;/li>
 &lt;/ul>
+&lt;p>&lt;img src="img/lsp-idea.png" alt="How it works">&lt;/p>
 
 
 
 &lt;aside class="notes">
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
+* server can be reused
 &lt;/aside>
+&lt;hr>
+&lt;h2 id="what-is-lsp">What is LSP?&lt;/h2>
+&lt;ul>
+&lt;li>Protocol used between editors and servers that provide language support&lt;/li>
+&lt;li>JSON-RPC-based&lt;/li>
+&lt;li>Originally developed for Microsoft Visual Studio Code, now open standard&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">Content-Length:&lt;/span> &lt;span style="color:#a40000">...\r\n&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">\r\n&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;jsonrpc&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;2.0&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;id&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;method&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;textDocument/completion&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#204a87;font-weight:bold">&amp;#34;params&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>		&lt;span style="color:#a40000">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>	&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+
+
+&lt;aside class="notes">
+* Code completion, syntax highlighting, marking of warnings and errors, and help with refactoring
+* RPC (Remote Procedure Call) is a protocol that allows a program to execute a procedure or function on a remote computer or server as if it were a local call, simplifying distributed application development by abstracting away the complexities of network communication.
+&lt;/aside>
+&lt;hr>
+&lt;h2 id="sources">Sources&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://miro.medium.com/v2/resize:fit:1400/1">https://miro.medium.com/v2/resize:fit:1400/1&lt;/a>*NWvQepJvLQJLZLkLbNnEzA.png&lt;/li>
+&lt;/ul>
 &lt;hr>
 &lt;h1 id="old">OLD&lt;/h1>
 &lt;h2 id="base-protocol">Base Protocol&lt;/h2>
-&lt;p>The base protocol consists of a header and a content part (comparable to HTTP).&lt;/p>
-&lt;p>&lt;strong>Header&lt;/strong> &lt;em>must&lt;/em> contain the &lt;code>Content-Length&lt;/code> value, plus it can include a &lt;code>Content-Type&lt;/code>.
-If no &lt;code>Content-Type&lt;/code> is provided, default is &lt;code>application/vscode-jsonrpc;charset=utf-8&lt;/code>.&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2></description></item></channel></rss>
+&lt;p>The base protocol consists of a header and a content part (comparable to HTTP).&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2></description></item></channel></rss>
