@@ -19,10 +19,4 @@ to describe &lt;em>requests&lt;/em>, &lt;em>responses&lt;/em> and &lt;em>notific
 
 &lt;section data-shortcode-section>
 &lt;h3 id="json-rpc">JSON-RPC&lt;/h3>
-&lt;p>JSON-RPC is a stateless, lightweight RPC protocol, where an RPC &lt;em>call&lt;/em> is a JSON object composed as follows:&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="language-server-protocol">Language Server Protocol&lt;/h2>
-&lt;p>Defines a set of JSON-RPC requests, response and notification messages in order
-to standardize communication between developement tools and language specific
-servers.&lt;/p>
-&lt;hr>
-&lt;h3 id="capabilities">Capabilities&lt;/h3>
-&lt;p>A language server and a client can have different sets of capabilities, i.e. groups of &lt;strong>language features&lt;/strong>. This set of capabilities is exchanged between client and server in the &lt;em>initialization phase&lt;/em> in order to make them agree over which features are supported in the session.&lt;/p></description></item></channel></rss>
+&lt;p>JSON-RPC is a stateless, lightweight RPC protocol, where an RPC &lt;em>call&lt;/em> is a JSON object composed as follows:&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2></description></item></channel></rss>
