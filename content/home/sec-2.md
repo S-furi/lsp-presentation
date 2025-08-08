@@ -5,6 +5,7 @@ outputs = ["Reveal"]
 
 ## A Simple Kotlin Example
 (Leveraging kotlin-lsp and LSP4J)
+</br>Sources: https://github.com/S-furi/lsp-presentation/tree/main/code/kt-lsp-example
 
 ---
 
