@@ -28,10 +28,12 @@ val lspServer = launcher.remoteProxy
 ---
 
 ### Registering a Workspace
-A Workspace is the location of a Kotlin project. As of today, kotlin-lsp (https://github.com/Kotlin/kotlin-lsp) supports Gradle Kotlin/JVM projects only, meaning that
-valid worksapces are only kotlin projects with such limitations. Due to this we could not use it with standalone files.
+A Workspace is the location of a Kotlin project. As of today, kotlin-lsp
+(https://github.com/Kotlin/kotlin-lsp) supports Gradle Kotlin/JVM projects only,
+meaning that valid workspaces are only kotlin projects with such limitations.
+Due to this we could not use it with standalone files.
 
-In order to register a workspace, we must spcify project's `URI` and attach it to the initial request to be sent to the server.
+In order to register a workspace, we must specify project's `URI` and attach it to the initial request to be sent to the server.
 
 ```kt
 projectFolders = listOf(WorkspaceFolder("file://$projectPath", projectName))
@@ -41,7 +43,7 @@ val params = InitializeParams().apply { workspaceFolders = projectFolders }
 ---
 
 ### Initializing the Language Server
-Once we succesfully launch a client instance, we must start the initialization procedure before any other requst. In this phase
+Once we successfully launch a client instance, we must start the initialization procedure before any other request. In this phase
 we specify the `WorkspaceFolder` and `ClientCapabilities` (later), upon which the server will respond with his capabilities.
 
 The initialization procedure can end only when, upon receiving server's
@@ -49,7 +51,7 @@ response, the client sends an `initialized` *notification* in order to signal
 that it's ready state.
 
 ```kt
-fun initialize(cc: ClientCapabilties, wf: Lisit<WorkSpaceFolder>): Future<Void> {
+fun initialize(cc: ClientCapabilities, wf: List<WorkSpaceFolder>): Future<Void> {
   val params = InitializeParams().apply {
     capabilities = cc
     workspaceFolders = wf
@@ -66,7 +68,7 @@ fun initialize(cc: ClientCapabilties, wf: Lisit<WorkSpaceFolder>): Future<Void> 
 ---
 {{% section %}}
 
-### Registering Client Capabilties
+### Registering Client Capabilities
 Client capabilities defines which operations will be available during client-server session. For this project, the most important capability is `Completion`.
 
 ```ts
@@ -96,21 +98,21 @@ A lot of configurations... mostly related on how the editor **shows** and **inse
 
 ---
 
-#### Registering Client Capabilties (2)
+### Registering Client Capabilities (2)
 
-`Completion` capabilties are under the `textDocumuent` set of capabilties, along with others like `Hover`, `Signature`, `Definition`, etc.
+`Completion` capabilities are under the `textDocument` set of capabilities, along with others like `Hover`, `Signature`, `Definition`, etc.
 
 ```kt
-val txtDocCap = TextDocumentCapabilties().apply {
+val txtDocCap = TextDocumentCapabilities().apply {
   // set completion configurations (could use also have used `apply` here too)
-  val cmplCap = CompletionCapabilties()
+  val cmplCap = CompletionCapabilities()
   cmplCap.setContextSupport(true)
-  cmplCap.setCompletionItem(CompletionItemCapabilties(snippetSupport = true))
+  cmplCap.setCompletionItem(CompletionItemCapabilities(snippetSupport = true))
   // cmplCap.set...
 
   completion = cmplCap
 }
-val capabilties = CompletionCapabilties.apply {
+val capabilities = CompletionCapabilities.apply {
   textDocument = txtDocCap
 }
 ```
@@ -118,3 +120,88 @@ val capabilties = CompletionCapabilties.apply {
 {{% /section %}}
 
 ---
+
+{{% section %}}
+
+### Document Synchronization
+In order to make the editor signals the language server to:
+
+- start tracking a file just opened in the editor
+- register changes made by the user
+- stop tracking the opened file
+
+we must use the methods `didOpen`, `didChange` and `didClose` respectively.
+
+
+To keep track of files and their contents, we use `TextDocumentIdentifier`:
+simply a container for their URI and a version number if clients support it
+(not necessarily incremental).
+
+---
+
+#### Document Opening
+
+We create an instance of `TextDocumentItem` with its URI, version number, language id and it's content.
+By sending the notification `textDocumentService/didOpen`, the server will now start tracking and synching the document.
+
+```kt
+val content = Files.readString(Paths.get(uri))
+val params = DidOpenTextDocumentParams(
+    TextDocumentItem(uri.toString(), "kotlin", 1, content)
+)
+languageServer.textDocumentService.didOpen(params)
+```
+
+---
+
+#### Document Changing
+
+Two different approaches in informing the server about changes: **incremental**, meaning that we send *diffs* (new contents and their positions), or **full** where the entire, updated document content is sent to the server. In the latter case, we could simply do:
+
+```kt
+fun changeDocument(uri: URI, newContent: String) {
+    val params = DidChangeTextDocumentParams(
+        VersionedTextDocumentIdentifier(uri.toString(), 1),
+        listOf(TextDocumentContentChangeEvent(newContent)),
+    )
+    languageServer.textDocumentService.didChange(params)
+}
+```
+
+Changes are represented as a list of `TexDocumentContentChangeEvent`: such events can define insertions/modifications/deletions in case the strategy for updating the fil is `incremental` (which must set in initial client capabilities, otherwise `full` is the default).
+
+---
+
+#### Document Closing
+
+The closing notification just simply requires the URI of the document
+
+```kt
+val params = DidCloseTextDocumentParams(TextDocumentIdentifier(uri.toString()))
+languageServer.textDocumentService.didClose(params)
+```
+
+{{% /section %}}
+
+---
+
+### Recap Scheme
+
+<img src="imgs/lsp-user-editor-server-interactiosn.png" height=850>
+
+---
+
+### `documentText/Completion`
+
+```kt
+fun getCompletion(
+    uri: URI,
+    position: Position,
+    triggerKind: CompletionTriggerKind = CompletionTriggerKind.Invoked
+): Future<Completions> {
+    val context = CompletionContext(triggerKind)
+    val params = CompletionParams(TextDocumentIdentifier(uri.toString()), position, context)
+    return languageServer.textDocumentService.completion(params)
+        ?: CompletableFuture.completedFuture(Either.forLeft(emptyList()))
+}
+```
