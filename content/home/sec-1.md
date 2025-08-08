@@ -201,8 +201,6 @@ Content-Length: ...\r\n
 
 ## Server Lifecycle
 
-Managed by the client
-
 ---
 
 ### Phases
@@ -219,6 +217,7 @@ Managed by the client
 ![Exchange of messages](img/initialization.png)
 
 {{< note >}}
+* The whole lifecycle is managed by the client
 * Establishing capabilities
 {{< /note >}}
 
@@ -234,7 +233,7 @@ Managed by the client
 
 ---
 
-### Other lifecycle messages
+### Other lifecycle capabilities
 
 * registering new capabilities
 * setting log preferences
@@ -242,10 +241,49 @@ Managed by the client
 {{% /section %}}
 
 ---
+{{%section %}}
 
-## Sources
-
-* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2
-* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
+## Document synchronization
 
 ---
+
+### Mandatory capabilities
+
+Notifications:
+* didOpen -- transfers the whole document and locks the file
+* didChange -- transfers changes
+* didClose -- unlocks the file
+
+{{< note >}}
+* used for document synchronization
+* server implements either all or none
+{{< /note >}}
+
+---
+
+### Other document synchronization capabilities
+
+* willing to save the document
+* saving the document
+
+{{< note >}}
+* Renaming through close and open
+{{< /note >}}
+
+---
+
+### Example
+
+![Exchange of messages](img/document.png)
+
+{{% /section %}}
+
+
+[//]: # (---)
+
+[//]: # (## Sources)
+
+[//]: # ()
+[//]: # (* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2)
+
+[//]: # (* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/)

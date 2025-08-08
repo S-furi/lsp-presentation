@@ -210,7 +210,6 @@ LSP in short
 
 <section data-shortcode-section>
 <h2 id="server-lifecycle">Server Lifecycle</h2>
-<p>Managed by the client</p>
 </section><section>
 <h3 id="phases">Phases</h3>
 <ol>
@@ -222,6 +221,7 @@ LSP in short
 <h3 id="initialization">Initialization</h3>
 <p><img src="img/initialization.png" alt="Exchange of messages"></p>
 <aside class="notes">
+* The whole lifecycle is managed by the client
 * Establishing capabilities
 </aside>
 </section><section>
@@ -231,7 +231,7 @@ LSP in short
 * in result: null
   </aside>
 </section><section>
-<h3 id="other-lifecycle-messages">Other lifecycle messages</h3>
+<h3 id="other-lifecycle-capabilities">Other lifecycle capabilities</h3>
 <ul>
 <li>registering new capabilities</li>
 <li>setting log preferences</li>
@@ -239,12 +239,36 @@ LSP in short
 
 </section>
 </section><section>
-<h2 id="sources">Sources</h2>
-<ul>
-<li><a href="https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2">https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2</a></li>
-<li><a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/">https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/</a></li>
-</ul>
+
+
+<section data-shortcode-section>
+<h2 id="document-synchronization">Document synchronization</h2>
 </section><section>
+<h3 id="mandatory-capabilities">Mandatory capabilities</h3>
+<p>Notifications:</p>
+<ul>
+<li>didOpen &ndash; transfers the whole document and locks the file</li>
+<li>didChange &ndash; transfers changes</li>
+<li>didClose &ndash; unlocks the file</li>
+</ul>
+<aside class="notes">
+* used for document synchronization
+* server implements either all or none
+</aside>
+</section><section>
+<h3 id="other-document-synchronization-capabilities">Other document synchronization capabilities</h3>
+<ul>
+<li>willing to save the document</li>
+<li>saving the document</li>
+</ul>
+<aside class="notes">
+* Renaming through close and open
+</aside>
+</section><section>
+<h3 id="example">Example</h3>
+<p><img src="img/document.png" alt="Exchange of messages"></p>
+
+</section>
 </section>
     <section><h2 id="a-simple-kotlin-example">A Simple Kotlin Example</h2>
 <p>(Leveraging kotlin-lsp and LSP4J)</p>
