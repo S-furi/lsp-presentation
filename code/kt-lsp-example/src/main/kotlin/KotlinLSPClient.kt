@@ -50,7 +50,7 @@ class KotlinLSPClient {
 
         return languageServer.initialize(params)
             .thenCompose { res ->
-                println("Initialization response from server:\n$res")
+                println(">>> Initialization response from server:\n$res")
                 languageServer.initialized(InitializedParams())
                 CompletableFuture.completedFuture(null)
             }

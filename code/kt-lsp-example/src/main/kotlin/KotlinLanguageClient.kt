@@ -27,6 +27,6 @@ class KotlinLanguageClient : LanguageClient {
     }
 
     override fun logMessage(message: MessageParams) {
-        println("${message.message}")
+        // println("${message.message}")
     }
 }
