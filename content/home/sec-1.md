@@ -97,12 +97,11 @@ outputs = ["Reveal"]
 
 * **Header**
   * `Content-Lenght`
-  * optional `Content-Type`
+  * optional `Content-Type`; default: `application/vscode-jsonrpc;charset=utf-8`
 * **Content**
   * `jsonrpc` -- version of JSON-RPC used, always equal to 2.0
-  * `id` -- id of a request (does not appear in notifications)
-  * `method` -- method to be invoked
-  * optional `params`
+  * the rest of the fields depend on the type of the message
+
 ```json
 Content-Length: ...\r\n
 \r\n
@@ -117,59 +116,17 @@ Content-Length: ...\r\n
 ```
 
 {{< note >}}
+* header + content like HTTP
 * header separated by 2 endlines
-* id correspondes to previous request
-* method - type/title
-* params - content/data
 {{< /note >}}
 
-{{% /section %}}
 
 ---
 
-{{% section %}}
-
-## Phases
-
-{{% /section %}}
-
----
-
-## Sources
-
-* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2
-* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
-
----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# OLD
-
-## Base Protocol
-
-The base protocol consists of a header and a content part (comparable to HTTP).
-
-**Header** *must* contain the `Content-Length` value, plus it can include a `Content-Type`.
-If no `Content-Type` is provided, default is `application/vscode-jsonrpc;charset=utf-8`.
-
-**Content part** begins after the header, marked with a double `\r\n` (like HTTP), and uses **`JSON-RPC`** (https://www.jsonrpc.org)
-to describe *requests*, *responses* and *notifications*.
+#### Request
+* `id`
+* `method`
+* optional `params`
 
 ```json
 Content-Length: ...\r\n
@@ -184,49 +141,57 @@ Content-Length: ...\r\n
 }
 ```
 
+{{< note >}}
+* method - type/title
+* params - content/data
+{{< /note >}}
 
 ---
-{{% section %}}
 
-### JSON-RPC
+#### Response
+* `id`
+* optional `result`
+* optional `error`
 
-JSON-RPC is a stateless, lightweight RPC protocol, where an RPC *call* is a JSON object composed as follows:
 
 ```json
+Content-Length: ...\r\n
+\r\n
 {
-  "jsonrpc": "2.0",
-  "method": "nameOfTheMethod",
-  "params": { ... },
-  "id": "clientDefinedIdentifier"
+	"jsonrpc": "2.0",
+	"id": 1,
+	"result": {
+		...
+	}
 }
 ```
 
+{{< note >}}
+* id correspondes to previous request
+* EITHER result OR error
+ {{< /note >}}
+
 ---
 
-### JSON-RPC
+#### Notification
+* `method`
+* optional `params`
 
-When a call is made, a *response* is composed of:
 ```json
+Content-Length: ...\r\n
+\r\n
 {
-  "jsonrpc": "2.0",
-  "result": Any,
-  "error?": {
-    "code": integer,
-    "message": "errorMsg",
-    "data": Any // additional info
-  }
-  "id": "sameValueAsClientDefinedIdInRequest"
+	"jsonrpc": "2.0",
+	"method": "initialized",
+	"params": {
+		...
+	}
 }
 ```
 
----
-
-### JSON-RPC
-
-Requests where there is a lack of interest in a response from the sender are called *notifications*. A notification is like a request, but it misses `id` parameter. Special kind of notifications include:
-
-- method `$/cancelRequest`
-- method `$/progress`
+{{< note >}}
+* we don't have id
+  {{< /note >}}
 
 {{% /section %}}
 
@@ -234,78 +199,53 @@ Requests where there is a lack of interest in a response from the sender are cal
 
 {{% section %}}
 
-### A Simple Kotlin Example (2)
+## Server Lifecycle
 
-An **`initialize`** message could be simply modelled as the following data class.
-
-```kotlin
-@Serializable
-data class InitializeMessage(
-    val jsonrpc: String = "2.0",
-    val id: Int = 1,
-    val method: String = "initialize",
-    val params: Map<String, Map<String, String?>?> = mapOf(
-      "processId" to null,
-      "workspaceFolders" to null,
-      "capabilities" to emptyMap()
-    )
-)
-
-fun buildJSONRPCMessage(msg: InitializeMessage): ByteArray {
-    val body = Json.encodeToString(msg)
-    return "Content-Length: ${body.length}\r\n\r\n$body".toByteArray(Charsets.UTF_8)
-}
-```
+Managed by the client
 
 ---
 
-### A Simple Kotlin Example
-We can communicate with the language server by means of a simple TCP connection, sending an `initialize` request and receiving server's response </br> (reading 4 Kb for the sake of simplicity)
+### Phases
 
 
-```kotlin
-val initializeMessage = buildJSONRPCMessage(InitializeMessage())
-Socket("127.0.0.1", 9999).use {client ->
-    client.outputStream.write(initializeMessage)
+1. Initialization
+2. Communication
+3. Shutdown
 
-    val buffer = ByteArray(4096)
-    val bytesRead = client.inputStream.read(buffer)
-    val response = String(buffer, 0, bytesRead, Charsets.UTF_8)
+---
 
-    assertTrue { response.isNotEmpty() }
-    println(response)
-}
-```
+### Initialization
 
-Querying the Kotlin-LSP (https://github.com/Kotlin/kotlin-lsp) returns a result like:
+![Exchange of messages](img/initialization.png)
 
-```json
-Content-Length: 3462
-Content-Type: application/json-rpc; charset=utf-8
+{{< note >}}
+* Establishing capabilities
+{{< /note >}}
 
-{
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": {
-        "capabilities": {
-            "textDocumentSync": 2,
-            "completionProvider": {
-                "kind": "com.jetbrains.lsp.protocol.CompletionRegistrationOptionsImpl",
-                "triggerCharacters": [
-                    "."
-                ...
-                ]
-          ...
-        },
-        "serverInfo": {
-            "name": "Kotlin LSP by JetBrains",
-            "version": "0.1"
-        }
-    }
-}
-```
+---
 
+### Shutdown
+
+![Exchange of messages](img/shutdown.png)
+
+{{< note >}}
+* in result: null
+  {{< /note >}}
+
+---
+
+### Other lifecycle messages
+
+* registering new capabilities
+* setting log preferences
 
 {{% /section %}}
+
+---
+
+## Sources
+
+* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2
+* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
 
 ---

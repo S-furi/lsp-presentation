@@ -82,7 +82,7 @@ LSP in short
 </ul>
 <p><img src="img/multiple-languages.png" alt="Exchange of messages"></p>
 <aside class="notes">
-* for a single project development tool usually starts
+* for a single project development tool usually starts 
 </aside>
 </section><section>
 <h3 id="capability">Capability</h3>
@@ -120,15 +120,13 @@ LSP in short
 <li><strong>Header</strong>
 <ul>
 <li><code>Content-Lenght</code></li>
-<li>optional <code>Content-Type</code></li>
+<li>optional <code>Content-Type</code>; default: <code>application/vscode-jsonrpc;charset=utf-8</code></li>
 </ul>
 </li>
 <li><strong>Content</strong>
 <ul>
 <li><code>jsonrpc</code> &ndash; version of JSON-RPC used, always equal to 2.0</li>
-<li><code>id</code> &ndash; id of a request (does not appear in notifications)</li>
-<li><code>method</code> &ndash; method to be invoked</li>
-<li>optional <code>params</code></li>
+<li>the rest of the fields depend on the type of the message</li>
 </ul>
 </li>
 </ul>
@@ -143,34 +141,16 @@ LSP in short
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><aside class="notes">
+* header + content like HTTP
 * header separated by 2 endlines
-* id correspondes to previous request
-* method - type/title
-* params - content/data
 </aside>
-
-</section>
 </section><section>
-
-
-<section data-shortcode-section>
-<h2 id="phases">Phases</h2>
-
-</section>
-</section><section>
-<h2 id="sources">Sources</h2>
+<h4 id="request">Request</h4>
 <ul>
-<li><a href="https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2">https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2</a></li>
-<li><a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/">https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/</a></li>
+<li><code>id</code></li>
+<li><code>method</code></li>
+<li>optional <code>params</code></li>
 </ul>
-</section><section>
-<h1 id="old">OLD</h1>
-<h2 id="base-protocol">Base Protocol</h2>
-<p>The base protocol consists of a header and a content part (comparable to HTTP).</p>
-<p><strong>Header</strong> <em>must</em> contain the <code>Content-Length</code> value, plus it can include a <code>Content-Type</code>.
-If no <code>Content-Type</code> is provided, default is <code>application/vscode-jsonrpc;charset=utf-8</code>.</p>
-<p><strong>Content part</strong> begins after the header, marked with a double <code>\r\n</code> (like HTTP), and uses <strong><code>JSON-RPC</code></strong> (<a href="https://www.jsonrpc.org">https://www.jsonrpc.org</a>)
-to describe <em>requests</em>, <em>responses</em> and <em>notifications</em>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
 </span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
@@ -181,105 +161,259 @@ to describe <em>requests</em>, <em>responses</em> and <em>notifications</em>.</p
 </span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div></section><section>
+</span></span></code></pre></div><aside class="notes">
+* method - type/title
+* params - content/data
+</aside>
+</section><section>
+<h4 id="response">Response</h4>
+<ul>
+<li><code>id</code></li>
+<li>optional <code>result</code></li>
+<li>optional <code>error</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;result&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><aside class="notes">
+* id correspondes to previous request
+* EITHER result OR error
+ </aside>
+</section><section>
+<h4 id="notification">Notification</h4>
+<ul>
+<li><code>method</code></li>
+<li>optional <code>params</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;initialized&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><aside class="notes">
+* we don't have id
+  </aside>
+
+</section>
+</section><section>
 
 
 <section data-shortcode-section>
-<h3 id="json-rpc">JSON-RPC</h3>
-<p>JSON-RPC is a stateless, lightweight RPC protocol, where an RPC <em>call</em> is a JSON object composed as follows:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;nameOfTheMethod&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#a40000">...</span> <span style="color:#000;font-weight:bold">},</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;clientDefinedIdentifier&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div></section><section>
-<h3 id="json-rpc-1">JSON-RPC</h3>
-<p>When a call is made, a <em>response</em> is composed of:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;result&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#a40000">Any</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;error?&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;code&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#a40000">integer</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;message&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;errorMsg&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;data&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#a40000">Any</span> <span style="color:#8f5902;font-style:italic">// additional info
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>  <span style="color:#000;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#4e9a06">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;sameValueAsClientDefinedIdInRequest&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div></section><section>
-<h3 id="json-rpc-2">JSON-RPC</h3>
-<p>Requests where there is a lack of interest in a response from the sender are called <em>notifications</em>. A notification is like a request, but it misses <code>id</code> parameter. Special kind of notifications include:</p>
+<h2 id="server-lifecycle">Server Lifecycle</h2>
+<p>Managed by the client</p>
+</section><section>
+<h3 id="phases">Phases</h3>
+<ol>
+<li>Initialization</li>
+<li>Communication</li>
+<li>Shutdown</li>
+</ol>
+</section><section>
+<h3 id="initialization">Initialization</h3>
+<p><img src="img/initialization.png" alt="Exchange of messages"></p>
+<aside class="notes">
+* Establishing capabilities
+</aside>
+</section><section>
+<h3 id="shutdown">Shutdown</h3>
+<p><img src="img/shutdown.png" alt="Exchange of messages"></p>
+<aside class="notes">
+* in result: null
+  </aside>
+</section><section>
+<h3 id="other-lifecycle-messages">Other lifecycle messages</h3>
 <ul>
-<li>method <code>$/cancelRequest</code></li>
-<li>method <code>$/progress</code></li>
+<li>registering new capabilities</li>
+<li>setting log preferences</li>
 </ul>
 
 </section>
 </section><section>
-
-
-<section data-shortcode-section>
-<h3 id="a-simple-kotlin-example-2">A Simple Kotlin Example (2)</h3>
-<p>An <strong><code>initialize</code></strong> message could be simply modelled as the following data class.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@Serializable</span>
-</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">data</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">InitializeMessage</span><span style="color:#000;font-weight:bold">(</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">jsonrpc</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">String</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">id</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">method</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">String</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;initialize&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Map</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">String</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Map</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">String</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">String</span><span style="color:#000;font-weight:bold">?&gt;?&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">mapOf</span><span style="color:#000;font-weight:bold">(</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">&#34;processId&#34;</span> <span style="color:#000">to</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">&#34;workspaceFolders&#34;</span> <span style="color:#000">to</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#4e9a06">&#34;capabilities&#34;</span> <span style="color:#000">to</span> <span style="color:#000">emptyMap</span><span style="color:#000;font-weight:bold">()</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">buildJSONRPCMessage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">msg</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">InitializeMessage</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">ByteArray</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">body</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Json</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">encodeToString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">msg</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#4e9a06">&#34;Content-Length: </span><span style="color:#4e9a06">${body.length}</span><span style="color:#4e9a06">\r\n\r\n</span><span style="color:#4e9a06">$body</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toByteArray</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Charsets</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF_8</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div></section><section>
-<h3 id="a-simple-kotlin-example">A Simple Kotlin Example</h3>
-<p>We can communicate with the language server by means of a simple TCP connection, sending an <code>initialize</code> request and receiving server&rsquo;s response </br> (reading 4 Kb for the sake of simplicity)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">initializeMessage</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">buildJSONRPCMessage</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">InitializeMessage</span><span style="color:#000;font-weight:bold">())</span>
-</span></span><span style="display:flex;"><span><span style="color:#000">Socket</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;127.0.0.1&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">9999</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">use</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#000">client</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">outputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">write</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">initializeMessage</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">buffer</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">ByteArray</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">4096</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">bytesRead</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">inputStream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">read</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">buffer</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">response</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">String</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">buffer</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">bytesRead</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Charsets</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UTF_8</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">assertTrue</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">response</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">isNotEmpty</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">response</span><span style="color:#000;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div><p>Querying the Kotlin-LSP (<a href="https://github.com/Kotlin/kotlin-lsp">https://github.com/Kotlin/kotlin-lsp</a>) returns a result like:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#0000cf;font-weight:bold">3462</span>
-</span></span><span style="display:flex;"><span><span style="color:#a40000">Content-Type:</span> <span style="color:#a40000">application/json-rpc;</span> <span style="color:#a40000">charset=utf</span><span style="color:#0000cf;font-weight:bold">-8</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;result&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">&#34;capabilities&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;textDocumentSync&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;completionProvider&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">&#34;kind&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;com.jetbrains.lsp.protocol.CompletionRegistrationOptionsImpl&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">&#34;triggerCharacters&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#4e9a06">&#34;.&#34;</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#a40000">...</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">]</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#a40000">...</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">},</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">&#34;serverInfo&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;name&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Kotlin LSP by JetBrains&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">&#34;version&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;0.1&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div>
-</section>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2">https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2</a></li>
+<li><a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/">https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/</a></li>
+</ul>
 </section><section>
 </section>
     <section><h2 id="a-simple-kotlin-example">A Simple Kotlin Example</h2>
+<p>(Leveraging kotlin-lsp and LSP4J)</p>
+</section><section>
+<h3 id="server-connection">Server Connection</h3>
+<div style="text-align: justify">
+<p>Accomplished by means of Sockets input and output streams</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">socket</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Socket</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;127.0.0.1&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">9999</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">launcher</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">LSPLauncher</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">createClientLauncher</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">languageClient</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">socket</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">inputStream</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">socket</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">outputStream</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">launcher</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">startListening</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">lspServer</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">launcher</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">remoteProxy</span>
+</span></span></code></pre></div></div>
+</section><section>
+<h3 id="registering-a-workspace">Registering a Workspace</h3>
+<div style="text-align: justify">
+<p>A Workspace is the location of a Kotlin project. As of today, kotlin-lsp
+(<a href="https://github.com/Kotlin/kotlin-lsp">https://github.com/Kotlin/kotlin-lsp</a>) supports Gradle Kotlin/JVM projects only,
+meaning that valid workspaces are only kotlin projects with such limitations.
+Due to this we could not use it with standalone files.</p>
+<p>In order to register a workspace, we must specify project&rsquo;s <code>URI</code> and attach it to the initial request to be sent to the server.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#000">projectFolders</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">listOf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">WorkspaceFolder</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;file://</span><span style="color:#4e9a06">$projectPath</span><span style="color:#4e9a06">&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">projectName</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">InitializeParams</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">apply</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">workspaceFolders</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">projectFolders</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+</section><section>
+<h3 id="initializing-the-language-server">Initializing the Language Server</h3>
+<div style="text-align: justify">
+<p>Once we successfully launch a client instance, we must start the initialization procedure before any other request. In this phase
+we specify the <code>WorkspaceFolder</code> and <code>ClientCapabilities</code> (later), upon which the server will respond with his capabilities.</p>
+<p>The initialization procedure can end only when, upon receiving server&rsquo;s
+response, the client sends an <code>initialized</code> <em>notification</em> in order to signal
+that it&rsquo;s ready state.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">initialize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">cc</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">ClientCapabilities</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">wf</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">List</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">WorkSpaceFolder</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Future</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Void</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">InitializeParams</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">apply</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">capabilities</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">cc</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">workspaceFolders</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">wf</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">languageServer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">initialize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">params</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">thenCompose</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">languageServer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">initialized</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">CompletableFuture</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">complete</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">null</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="registering-client-capabilities">Registering Client Capabilities</h3>
+<div style="text-align: justify">
+<p>Client capabilities defines which operations will be available during client-server session. For this project, the most important capability is <code>Completion</code>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">interface</span> <span style="color:#000">CompletionClientCapabilities</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">dynamicRegistration?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">completionItem</span><span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">snippetSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">commitCharactersSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">documentationFormat?</span>: <span style="color:#204a87;font-weight:bold">MarkupKind</span><span style="color:#000;font-weight:bold">[];</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">deprecatedSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">preselectSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">tagSupport</span><span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">valueSet</span>: <span style="color:#204a87;font-weight:bold">CompletionItemTag</span><span style="color:#000;font-weight:bold">[];</span> <span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">insertReplaceSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">resolveSupport</span><span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">properties</span>: <span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">[];</span> <span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">insertTextModeSupport</span><span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">valueSet</span>: <span style="color:#204a87;font-weight:bold">InsertTextMode</span><span style="color:#000;font-weight:bold">[];</span> <span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">labelDetailsSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">completionItemKind</span><span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">valueSet?</span>: <span style="color:#204a87;font-weight:bold">CompletionItemKind</span><span style="color:#000;font-weight:bold">[];</span> <span style="color:#000;font-weight:bold">};</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">contextSupport?</span>: <span style="color:#204a87;font-weight:bold">boolean</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">insertTextMode?</span>: <span style="color:#204a87;font-weight:bold">InsertTextMode</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">completionList</span><span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">itemDefaults?</span>: <span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">[];</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>A lot of configurations&hellip; mostly related on how the editor <strong>shows</strong> and <strong>insert</strong> received completions options.</p>
+</div>
+</section><section>
+<h3 id="registering-client-capabilities-2">Registering Client Capabilities (2)</h3>
+<div style="text-align: justify">
+<p><code>Completion</code> capabilities are under the <code>textDocument</code> set of capabilities, along with others like <code>Hover</code>, <code>Signature</code>, <code>Definition</code>, etc.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">txtDocCap</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">TextDocumentCapabilities</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">apply</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">// set completion configurations (could use also have used `apply` here too)
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>  <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">cmplCap</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">CompletionCapabilities</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">cmplCap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">setContextSupport</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">cmplCap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">setCompletionItem</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">CompletionItemCapabilities</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">snippetSupport</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">// cmplCap.set...
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">completion</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">cmplCap</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">capabilities</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">CompletionCapabilities</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">apply</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">textDocument</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">txtDocCap</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h3 id="document-synchronization">Document Synchronization</h3>
+<div style="text-align: justify">
+<p>In order to make the editor signals the language server to:</p>
+<ul>
+<li>start tracking a file just opened in the editor</li>
+<li>register changes made by the user</li>
+<li>stop tracking the opened file</li>
+</ul>
+<p>we must use the methods <code>didOpen</code>, <code>didChange</code> and <code>didClose</code> respectively.</p>
+<p>To keep track of files and their contents, we use <code>TextDocumentIdentifier</code>:
+simply a container for their URI and a version number if clients support it
+(not necessarily incremental).</p>
+</div>
+</section><section>
+<h4 id="document-opening">Document Opening</h4>
+<div style="text-align: justify">
+<p>We create an instance of <code>TextDocumentItem</code> with its URI, version number, language id and it&rsquo;s content.
+By sending the notification <code>textDocumentService/didOpen</code>, the server will now start tracking and synching the document.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">content</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Files</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">readString</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Paths</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">uri</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DidOpenTextDocumentParams</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">TextDocumentItem</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">uri</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#4e9a06">&#34;kotlin&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">content</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">languageServer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">textDocumentService</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">didOpen</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">params</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div></div>
+</section><section>
+<h4 id="document-changing">Document Changing</h4>
+<div style="text-align: justify">
+<p>Two different approaches in informing the server about changes: <strong>incremental</strong>, meaning that we send <em>diffs</em> (new contents and their positions), or <strong>full</strong> where the entire, updated document content is sent to the server. In the latter case, we could simply do:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">changeDocument</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">uri</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">URI</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">newContent</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">String</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DidChangeTextDocumentParams</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">VersionedTextDocumentIdentifier</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">uri</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">),</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">listOf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TextDocumentContentChangeEvent</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">newContent</span><span style="color:#000;font-weight:bold">)),</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">languageServer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">textDocumentService</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">didChange</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">params</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Changes are represented as a list of <code>TexDocumentContentChangeEvent</code>: such events can define insertions/modifications/deletions in case the strategy for updating the fil is <code>incremental</code> (which must set in initial client capabilities, otherwise <code>full</code> is the default).</p>
+</div>
+</section><section>
+<h4 id="document-closing">Document Closing</h4>
+<div style="text-align: justify">
+<p>The closing notification just simply requires the URI of the document</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DidCloseTextDocumentParams</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TextDocumentIdentifier</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">uri</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()))</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">languageServer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">textDocumentService</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">didClose</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">params</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div></div>
+
+</section>
+</section><section>
+<h3 id="recap-scheme">Recap Scheme</h3>
+<img src="img/lsp-user-editor-server-interactions.png" height=850>
+</section><section>
+<h3 id="documenttextcompletion"><code>documentText/Completion</code></h3>
+<div style="text-align: justify">
+Completions can be triggered by 3 main actions inside the editor:
+1. By pressing certain characters (e.g. '`.`', '`(`')
+2. Explicit invocation (i.e. `<ctrl> + <space>`)
+3. When the current completions is incomplete.
+<p>When one of these three events occur, we can trigger a completion specifying the URI of the file and the cursor line and character position,
+and retrieve a result of type <code>List&lt;CompletionItem&gt;</code> or <code>CompletionList</code> depending on whether current completion is incomplete or not.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">getCompletion</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">uri</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">URI</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">position</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Position</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">triggerKind</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">CompletionTriggerKind</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">CompletionTriggerKind</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Invoked</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">Future</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Completions</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">context</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">CompletionContext</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">triggerKind</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">params</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">CompletionParams</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TextDocumentIdentifier</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">uri</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()),</span> <span style="color:#000">position</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">languageServer</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">textDocumentService</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">completion</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">params</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000">CompletableFuture</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">completedFuture</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Either</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">forLeft</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">emptyList</span><span style="color:#000;font-weight:bold">()))</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
 </section>
 
 </div>
