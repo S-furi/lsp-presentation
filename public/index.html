@@ -78,22 +78,46 @@ LSP in short
 <ul>
 <li><strong>Client</strong>: editor</li>
 <li><strong>Server</strong>: language server</li>
-<li>Exchange through stdio or socket</li>
+<li>Message exchange through stdio or socket</li>
 </ul>
 <p><img src="img/messages.png" alt="Exchange of messages"></p>
 <aside class="notes">
 * Connection maintained until the exit notification is sent
 </aside>
 </section><section>
-<h3 id="typical-implementation">Typical implementation</h3>
-<h3 id="messages">Messages</h3>
-<ol>
-<li><strong>Request</strong></li>
-<li><strong>Response</strong></li>
-<li><strong>Notification</strong></li>
-</ol>
+<h3 id="multiple-languages">Multiple languages</h3>
+<ul>
+<li>Typical implementation</li>
+<li>Separate language server for each programming language</li>
+</ul>
+<p><img src="img/multiple-languages.png" alt="Exchange of messages"></p>
+<aside class="notes">
+* for a single project development tool usually starts 
+</aside>
 </section><section>
 <h3 id="capabilities">Capabilities</h3>
+</section><section>
+<h3 id="messages">Messages</h3>
+<ol>
+<li><strong>Request</strong> — expects a response</li>
+<li><strong>Response</strong> — sent after receiving a request</li>
+<li><strong>Notification</strong>
+<ul>
+<li>treated as an event</li>
+<li>must not get a response</li>
+<li>does not have id</li>
+</ul>
+</li>
+</ol>
+</section><section>
+<h3 id="message-structure">Message structure</h3>
+
+</section>
+</section><section>
+
+
+<section data-shortcode-section>
+<h2 id="phases">Phases</h2>
 
 </section>
 </section><section>

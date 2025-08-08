@@ -52,7 +52,7 @@ Content-Length: ...\r\n
 
 * **Client**: editor
 * **Server**: language server
-* Exchange through stdio or socket
+* Message exchange through stdio or socket
 
 ![Exchange of messages](img/messages.png)
 
@@ -62,19 +62,43 @@ Content-Length: ...\r\n
 
 ---
 
-### Typical implementation
+### Multiple languages
 
+* Typical implementation
+* Separate language server for each programming language
 
+![Exchange of messages](img/multiple-languages.png)
 
-### Messages
-
-1. **Request**
-2. **Response**
-3. **Notification**
+{{< note >}}
+* for a single project development tool usually starts 
+{{< /note >}}
 
 ---
 
 ### Capabilities
+
+---
+### Messages
+
+1. **Request** — expects a response
+2. **Response** — sent after receiving a request
+3. **Notification**
+   * treated as an event
+   * must not get a response
+   * does not have id
+
+---
+
+
+
+### Message structure
+
+{{% /section %}}
+
+---
+{{% section %}}
+
+## Phases
 
 {{% /section %}}
 
