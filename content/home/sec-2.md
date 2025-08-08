@@ -225,7 +225,7 @@ languageServer.textDocumentService.didClose(params)
 
 ### Recap Scheme
 
-<img src="img/lsp-user-editor-server-interactions.png">
+<img src="img/lsp-user-editor-server-interactions.png" height=850>
 
 ---
 
