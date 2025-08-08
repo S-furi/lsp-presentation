@@ -51,17 +51,7 @@ LSP in short
 <li>JSON-RPC-based</li>
 <li>Originally developed for Microsoft Visual Studio Code, now open standard</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
-</span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;textDocument/completion&#34;</span><span style="color:#000;font-weight:bold">,</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
-</span></span></code></pre></div>
+
 
 
 <aside class="notes">
@@ -95,12 +85,27 @@ LSP in short
 * for a single project development tool usually starts 
 </aside>
 </section><section>
-<h3 id="capabilities">Capabilities</h3>
+<h3 id="capability">Capability</h3>
+<ul>
+<li>Set of language features</li>
+<li>Client and server announce their supported features using capabilities</li>
+<li>Enables backward compatibility</li>
+</ul>
+<aside class="notes">
+* defined by the LSP specification
+</aside>
+
+</section>
 </section><section>
-<h3 id="messages">Messages</h3>
+
+
+<section data-shortcode-section>
+<h2 id="messages">Messages</h2>
+</section><section>
+<h3 id="types-of-messages">Types of messages</h3>
 <ol>
 <li><strong>Request</strong> — expects a response</li>
-<li><strong>Response</strong> — sent after receiving a request</li>
+<li><strong>Response</strong> — result of a request</li>
 <li><strong>Notification</strong>
 <ul>
 <li>treated as an event</li>
@@ -111,6 +116,38 @@ LSP in short
 </ol>
 </section><section>
 <h3 id="message-structure">Message structure</h3>
+<ul>
+<li><strong>Header</strong>
+<ul>
+<li><code>Content-Lenght</code></li>
+<li>optional <code>Content-Type</code></li>
+</ul>
+</li>
+<li><strong>Content</strong>
+<ul>
+<li><code>jsonrpc</code> &ndash; version of JSON-RPC used, always equal to 2.0</li>
+<li><code>id</code> &ndash; id of a request (does not appear in notifications)</li>
+<li><code>method</code> &ndash; method to be invoked</li>
+<li>optional <code>params</code></li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;textDocument/completion&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><aside class="notes">
+* header separated by 2 endlines
+* id correspondes to previous request
+* method - type/title
+* params - content/data
+</aside>
 
 </section>
 </section><section>

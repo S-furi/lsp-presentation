@@ -23,19 +23,6 @@ outputs = ["Reveal"]
 * JSON-RPC-based
 * Originally developed for Microsoft Visual Studio Code, now open standard
 
-```json
-Content-Length: ...\r\n
-\r\n
-{
-	"jsonrpc": "2.0",
-	"id": 1,
-	"method": "textDocument/completion",
-	"params": {
-		...
-	}
-}
-```
-
 {{< note >}}
 * Code completion, syntax highlighting, marking of warnings and errors, and help with refactoring
 * RPC (Remote Procedure Call) is a protocol that allows a program to execute a procedure or function on a remote computer or server as if it were a local call, simplifying distributed application development by abstracting away the complexities of network communication.
@@ -75,13 +62,30 @@ Content-Length: ...\r\n
 
 ---
 
-### Capabilities
+### Capability
+
+* Set of language features
+* Client and server announce their supported features using capabilities
+* Enables backward compatibility
+
+{{< note >}}
+* defined by the LSP specification
+{{< /note >}}
+
+{{% /section %}}
 
 ---
-### Messages
+
+{{% section %}}
+
+## Messages
+
+---
+
+### Types of messages
 
 1. **Request** — expects a response
-2. **Response** — sent after receiving a request
+2. **Response** — result of a request
 3. **Notification**
    * treated as an event
    * must not get a response
@@ -89,13 +93,40 @@ Content-Length: ...\r\n
 
 ---
 
-
-
 ### Message structure
+
+* **Header**
+  * `Content-Lenght`
+  * optional `Content-Type`
+* **Content**
+  * `jsonrpc` -- version of JSON-RPC used, always equal to 2.0
+  * `id` -- id of a request (does not appear in notifications)
+  * `method` -- method to be invoked
+  * optional `params`
+```json
+Content-Length: ...\r\n
+\r\n
+{
+	"jsonrpc": "2.0",
+	"id": 1,
+	"method": "textDocument/completion",
+	"params": {
+		...
+	}
+}
+```
+
+{{< note >}}
+* header separated by 2 endlines
+* id correspondes to previous request
+* method - type/title
+* params - content/data
+{{< /note >}}
 
 {{% /section %}}
 
 ---
+
 {{% section %}}
 
 ## Phases
