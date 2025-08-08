@@ -4,16 +4,51 @@ outputs = ["Reveal"]
 +++
 ## Why do we need LSP?
 
-* Editor should provide language support
-* Standard approach: a new implementation for each editor
+* Code editor should provide language support
+* Standard approach: a new implementation for each language and editor
 * Better approach: language server communicating with editor using standarized protocol
+
+![How it works](img/lsp-idea.png)
 
 {{< note >}}
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
+* server can be reused
 {{< /note >}}
 
 ---
+
+## What is LSP?
+* Protocol used between editors and servers that provide language support
+* JSON-RPC-based
+* Originally developed for Microsoft Visual Studio Code, now open standard
+
+```json
+Content-Length: ...\r\n
+\r\n
+{
+	"jsonrpc": "2.0",
+	"id": 1,
+	"method": "textDocument/completion",
+	"params": {
+		...
+	}
+}
+```
+
+{{< note >}}
+* Code completion, syntax highlighting, marking of warnings and errors, and help with refactoring
+* RPC (Remote Procedure Call) is a protocol that allows a program to execute a procedure or function on a remote computer or server as if it were a local call, simplifying distributed application development by abstracting away the complexities of network communication.
+{{< /note >}}
+
+---
+
+## Sources
+
+* https://miro.medium.com/v2/resize:fit:1400/1*NWvQepJvLQJLZLkLbNnEzA.png
+
+---
+
 # OLD
 
 ## Base Protocol

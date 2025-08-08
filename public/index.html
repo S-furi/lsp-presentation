@@ -3,7 +3,7 @@
   <head>
 	<meta name="generator" content="Hugo 0.148.2"><script src="/lsp-presentation/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=lsp-presentation/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
-<title>LSP Presentation - JetBrains Internship Summer 2025</title>
+<title>LSP Presentation</title>
 
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,17 +31,48 @@ LSP in short
 
     <section><h2 id="why-do-we-need-lsp">Why do we need LSP?</h2>
 <ul>
-<li>Editor should provide language support</li>
-<li>Standard approach: a new implementation for each editor</li>
+<li>Code editor should provide language support</li>
+<li>Standard approach: a new implementation for each language and editor</li>
 <li>Better approach: language server communicating with editor using standarized protocol</li>
 </ul>
+<p><img src="img/lsp-idea.png" alt="How it works"></p>
 
 
 
 <aside class="notes">
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
+* server can be reused
 </aside>
+</section><section>
+<h2 id="what-is-lsp">What is LSP?</h2>
+<ul>
+<li>Protocol used between editors and servers that provide language support</li>
+<li>JSON-RPC-based</li>
+<li>Originally developed for Microsoft Visual Studio Code, now open standard</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#a40000">Content-Length:</span> <span style="color:#a40000">...\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#a40000">\r\n</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;jsonrpc&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;2.0&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;id&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;method&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;textDocument/completion&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#204a87;font-weight:bold">&#34;params&#34;</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a40000">...</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div>
+
+
+<aside class="notes">
+* Code completion, syntax highlighting, marking of warnings and errors, and help with refactoring
+* RPC (Remote Procedure Call) is a protocol that allows a program to execute a procedure or function on a remote computer or server as if it were a local call, simplifying distributed application development by abstracting away the complexities of network communication.
+</aside>
+</section><section>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://miro.medium.com/v2/resize:fit:1400/1">https://miro.medium.com/v2/resize:fit:1400/1</a>*NWvQepJvLQJLZLkLbNnEzA.png</li>
+</ul>
 </section><section>
 <h1 id="old">OLD</h1>
 <h2 id="base-protocol">Base Protocol</h2>
