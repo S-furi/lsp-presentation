@@ -40,7 +40,8 @@
 &lt;li>Message exchange through stdio or socket&lt;/li>
 &lt;/ul>
 &lt;p>&lt;img src="img/messages.png" alt="Exchange of messages">&lt;/p></description></item><item><title>Language Server Protocol - Presentation</title><link>https://s-furi.github.io/lsp-presentation/home/sec-2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://s-furi.github.io/lsp-presentation/home/sec-2/</guid><description>&lt;h2 id="a-simple-kotlin-example">A Simple Kotlin Example&lt;/h2>
-&lt;p>(Leveraging kotlin-lsp and LSP4J)&lt;/p>
+&lt;p>(Leveraging kotlin-lsp and LSP4J)
+&lt;/br>Sources: &lt;a href="https://github.com/S-furi/lsp-presentation/tree/main/code/kt-lsp-example">https://github.com/S-furi/lsp-presentation/tree/main/code/kt-lsp-example&lt;/a>&lt;/p>
 &lt;hr>
 &lt;h3 id="server-connection">Server Connection&lt;/h3>
 &lt;div style="text-align: justify">
