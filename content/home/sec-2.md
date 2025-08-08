@@ -9,6 +9,9 @@ outputs = ["Reveal"]
 ---
 
 ### Server Connection
+
+<div style="text-align: justify">
+
 Accomplished by means of Sockets input and output streams
 
 ```kt
@@ -25,9 +28,14 @@ launcher.startListening()
 val lspServer = launcher.remoteProxy
 ```
 
+</div>
+
 ---
 
 ### Registering a Workspace
+
+<div style="text-align: justify">
+
 A Workspace is the location of a Kotlin project. As of today, kotlin-lsp
 (https://github.com/Kotlin/kotlin-lsp) supports Gradle Kotlin/JVM projects only,
 meaning that valid workspaces are only kotlin projects with such limitations.
@@ -40,9 +48,14 @@ projectFolders = listOf(WorkspaceFolder("file://$projectPath", projectName))
 val params = InitializeParams().apply { workspaceFolders = projectFolders }
 ```
 
+</div>
+
 ---
 
 ### Initializing the Language Server
+
+<div style="text-align: justify">
+
 Once we successfully launch a client instance, we must start the initialization procedure before any other request. In this phase
 we specify the `WorkspaceFolder` and `ClientCapabilities` (later), upon which the server will respond with his capabilities.
 
@@ -63,12 +76,15 @@ fun initialize(cc: ClientCapabilities, wf: List<WorkSpaceFolder>): Future<Void> 
 }
 ```
 
-
+</div>
 
 ---
 {{% section %}}
 
 ### Registering Client Capabilities
+
+<div style="text-align: justify">
+
 Client capabilities defines which operations will be available during client-server session. For this project, the most important capability is `Completion`.
 
 ```ts
@@ -96,9 +112,13 @@ interface CompletionClientCapabilities {
 
 A lot of configurations... mostly related on how the editor **shows** and **insert** received completions options.
 
+</div>
+
 ---
 
 ### Registering Client Capabilities (2)
+
+<div style="text-align: justify">
 
 `Completion` capabilities are under the `textDocument` set of capabilities, along with others like `Hover`, `Signature`, `Definition`, etc.
 
@@ -117,6 +137,8 @@ val capabilities = CompletionCapabilities.apply {
 }
 ```
 
+</div>
+
 {{% /section %}}
 
 ---
@@ -124,6 +146,8 @@ val capabilities = CompletionCapabilities.apply {
 {{% section %}}
 
 ### Document Synchronization
+<div style="text-align: justify">
+
 In order to make the editor signals the language server to:
 
 - start tracking a file just opened in the editor
@@ -137,9 +161,13 @@ To keep track of files and their contents, we use `TextDocumentIdentifier`:
 simply a container for their URI and a version number if clients support it
 (not necessarily incremental).
 
+</div>
+
 ---
 
 #### Document Opening
+<div style="text-align: justify">
+
 
 We create an instance of `TextDocumentItem` with its URI, version number, language id and it's content.
 By sending the notification `textDocumentService/didOpen`, the server will now start tracking and synching the document.
@@ -151,10 +179,14 @@ val params = DidOpenTextDocumentParams(
 )
 languageServer.textDocumentService.didOpen(params)
 ```
+</div>
 
 ---
 
 #### Document Changing
+
+<div style="text-align: justify">
+
 
 Two different approaches in informing the server about changes: **incremental**, meaning that we send *diffs* (new contents and their positions), or **full** where the entire, updated document content is sent to the server. In the latter case, we could simply do:
 
@@ -170,9 +202,13 @@ fun changeDocument(uri: URI, newContent: String) {
 
 Changes are represented as a list of `TexDocumentContentChangeEvent`: such events can define insertions/modifications/deletions in case the strategy for updating the fil is `incremental` (which must set in initial client capabilities, otherwise `full` is the default).
 
+</div>
+
 ---
 
 #### Document Closing
+
+<div style="text-align: justify">
 
 The closing notification just simply requires the URI of the document
 
@@ -181,17 +217,28 @@ val params = DidCloseTextDocumentParams(TextDocumentIdentifier(uri.toString()))
 languageServer.textDocumentService.didClose(params)
 ```
 
+</div>
+
 {{% /section %}}
 
 ---
 
 ### Recap Scheme
 
-<img src="imgs/lsp-user-editor-server-interactiosn.png" height=850>
+<img src="img/lsp-user-editor-server-interactions.png">
 
 ---
 
 ### `documentText/Completion`
+
+<div style="text-align: justify">
+Completions can be triggered by 3 main actions inside the editor:
+1. By pressing certain characters (e.g. '`.`', '`(`')
+2. Explicit invocation (i.e. `<ctrl> + <space>`)
+3. When the current completions is incomplete.
+
+When one of these three events occur, we can trigger a completion specifying the URI of the file and the cursor line and character position,
+and retrieve a result of type `List<CompletionItem>` or `CompletionList` depending on whether current completion is incomplete or not.
 
 ```kt
 fun getCompletion(
@@ -205,3 +252,5 @@ fun getCompletion(
         ?: CompletableFuture.completedFuture(Either.forLeft(emptyList()))
 }
 ```
+
+</div>
