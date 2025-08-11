@@ -43,6 +43,10 @@ LSP in short
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
 * server can be reused
+
+WHAT EXACTLY SERVER GIVE US
+SERVER SAVES FILES ON ITS SIDE
+(IF THE LANGUAGE IS EXPOSED BY LSP ITSELF?)
 </aside>
 </section><section>
 <h2 id="what-is-lsp">What is LSP?</h2>
@@ -93,6 +97,7 @@ LSP in short
 </ul>
 <aside class="notes">
 * defined by the LSP specification
+<p>HOW DOES IT ENABLE BACKWARD CAPABILITY</p>
 </aside>
 
 </section>
@@ -114,6 +119,9 @@ LSP in short
 </ul>
 </li>
 </ol>
+<aside class="notes">
+WHY DO WE NEED NOTIFICATIONS EVEN -> GIVE EXAMPLE LOGS
+</aside>
 </section><section>
 <h3 id="message-structure">Message structure</h3>
 <ul>
@@ -224,12 +232,18 @@ LSP in short
 * The whole lifecycle is managed by the client
 * Establishing capabilities
 </aside>
+<aside class="notes">
+WHAT WOULD HAPPEN IF WE DIDN'T PROVIDE INITIALIZATION
+</aside>
 </section><section>
 <h3 id="shutdown">Shutdown</h3>
 <p><img src="img/shutdown.png" alt="Exchange of messages"></p>
 <aside class="notes">
 * in result: null
   </aside>
+<aside class="notes">
+WHY HAVING SHUTDOWN
+</aside>
 </section><section>
 <h3 id="other-lifecycle-capabilities">Other lifecycle capabilities</h3>
 <ul>
@@ -254,6 +268,7 @@ LSP in short
 <aside class="notes">
 * used for document synchronization
 * server implements either all or none
+<p>WHAT WOULD HAPPEN WITHOUT OPENING THE FILE?</p>
 </aside>
 </section><section>
 <h3 id="other-document-synchronization-capabilities">Other document synchronization capabilities</h3>
@@ -271,7 +286,8 @@ LSP in short
 </section>
 </section>
     <section><h2 id="a-simple-kotlin-example">A Simple Kotlin Example</h2>
-<p>(Leveraging kotlin-lsp and LSP4J)</p>
+<p>(Leveraging kotlin-lsp and LSP4J)
+</br>Sources: <a href="https://github.com/S-furi/lsp-presentation/tree/main/code/kt-lsp-example">https://github.com/S-furi/lsp-presentation/tree/main/code/kt-lsp-example</a></p>
 </section><section>
 <h3 id="server-connection">Server Connection</h3>
 <div style="text-align: justify">
@@ -416,9 +432,6 @@ By sending the notification <code>textDocumentService/didOpen</code>, the server
 
 </section>
 </section><section>
-<h3 id="recap-scheme">Recap Scheme</h3>
-<img src="img/lsp-user-editor-server-interactions.png" height=850>
-</section><section>
 <h3 id="documenttextcompletion"><code>documentText/Completion</code></h3>
 <div style="text-align: justify">
 Completions can be triggered by 3 main actions inside the editor:
@@ -438,6 +451,9 @@ and retrieve a result of type <code>List&lt;CompletionItem&gt;</code> or <code>C
 </span></span><span style="display:flex;"><span>        <span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000">CompletableFuture</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">completedFuture</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Either</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">forLeft</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">emptyList</span><span style="color:#000;font-weight:bold">()))</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div></div>
+</section><section>
+<h3 id="recap-scheme">Recap Scheme</h3>
+<img src="img/lsp-user-editor-server-interactions.png" height=850>
 </section>
 
 </div>

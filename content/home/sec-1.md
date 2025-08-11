@@ -14,6 +14,10 @@ outputs = ["Reveal"]
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
 * server can be reused
+
+WHAT EXACTLY SERVER GIVE US
+SERVER SAVES FILES ON ITS SIDE
+(IF THE LANGUAGE IS EXPOSED BY LSP ITSELF?)
 {{< /note >}}
 
 ---
@@ -70,6 +74,8 @@ outputs = ["Reveal"]
 
 {{< note >}}
 * defined by the LSP specification
+
+HOW DOES IT ENABLE BACKWARD CAPABILITY
 {{< /note >}}
 
 {{% /section %}}
@@ -90,6 +96,12 @@ outputs = ["Reveal"]
    * treated as an event
    * must not get a response
    * does not have id
+
+
+{{< note >}}
+WHY DO WE NEED NOTIFICATIONS EVEN -> GIVE EXAMPLE LOGS
+{{< /note >}}
+
 
 ---
 
@@ -221,6 +233,10 @@ Content-Length: ...\r\n
 * Establishing capabilities
 {{< /note >}}
 
+{{< note >}}
+WHAT WOULD HAPPEN IF WE DIDN'T PROVIDE INITIALIZATION
+{{< /note >}}
+
 ---
 
 ### Shutdown
@@ -230,6 +246,11 @@ Content-Length: ...\r\n
 {{< note >}}
 * in result: null
   {{< /note >}}
+
+
+{{< note >}}
+WHY HAVING SHUTDOWN
+{{< /note >}}
 
 ---
 
@@ -257,6 +278,8 @@ Notifications:
 {{< note >}}
 * used for document synchronization
 * server implements either all or none
+
+WHAT WOULD HAPPEN WITHOUT OPENING THE FILE?
 {{< /note >}}
 
 ---
