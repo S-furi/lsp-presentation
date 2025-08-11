@@ -21,13 +21,10 @@ import org.eclipse.lsp4j.TextDocumentClientCapabilities
 import org.eclipse.lsp4j.TextDocumentContentChangeEvent
 import org.eclipse.lsp4j.TextDocumentIdentifier
 import org.eclipse.lsp4j.TextDocumentItem
-import org.eclipse.lsp4j.TextDocumentPositionParams
-import org.eclipse.lsp4j.TextEdit
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier
 import org.eclipse.lsp4j.WorkspaceClientCapabilities
 import org.eclipse.lsp4j.WorkspaceFolder
 import org.eclipse.lsp4j.WorkspaceSymbolParams
-import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.jsonrpc.messages.Either
 import org.eclipse.lsp4j.launch.LSPLauncher
 import org.eclipse.lsp4j.services.LanguageServer
@@ -39,9 +36,9 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Future
 
 class KotlinLSPClient {
-    private val socket = Socket("127.0.0.1", 9999)
+    private val socket by lazy { Socket("127.0.0.1", 9999) }
     private val languageClient = KotlinLanguageClient()
-    private val languageServer: LanguageServer = getRemoteLanguageServer()
+    private val languageServer: LanguageServer by lazy { getRemoteLanguageServer() }
     private lateinit var stopFuture: Future<Void>
 
     typealias Completions = Either<List<CompletionItem>, CompletionList>
