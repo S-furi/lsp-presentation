@@ -273,8 +273,6 @@ Notifications:
 {{< note >}}
 * used for document synchronization
 * server implements either all or none
-
-WHAT WOULD HAPPEN WITHOUT OPENING THE FILE?
 {{< /note >}}
 
 ---
