@@ -255,3 +255,10 @@ fun getCompletion(
 ### Recap Scheme
 
 <img src="img/lsp-user-editor-server-interactions.png" height=850>
+
+---
+
+## Sources
+
+* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2
+* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/

@@ -13,11 +13,8 @@ outputs = ["Reveal"]
 {{< note >}}
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
+* every time we need a language support we call the server, and it gives us the information we need
 * server can be reused
-
-WHAT EXACTLY SERVER GIVE US
-SERVER SAVES FILES ON ITS SIDE
-(IF THE LANGUAGE IS EXPOSED BY LSP ITSELF?)
 {{< /note >}}
 
 ---
@@ -74,8 +71,7 @@ SERVER SAVES FILES ON ITS SIDE
 
 {{< note >}}
 * defined by the LSP specification
-
-HOW DOES IT ENABLE BACKWARD CAPABILITY
+* if one of the entities uses older version it does not have newer capabilities -> backward compatibility
 {{< /note >}}
 
 {{% /section %}}
@@ -95,11 +91,11 @@ HOW DOES IT ENABLE BACKWARD CAPABILITY
 3. **Notification**
    * treated as an event
    * must not get a response
-   * does not have id
 
 
 {{< note >}}
-WHY DO WE NEED NOTIFICATIONS EVEN -> GIVE EXAMPLE LOGS
+* NOTIFICATIONS: cluttering the communication, would have to spend additional time waiting for a response
+* LOGI
 {{< /note >}}
 
 
@@ -234,7 +230,6 @@ Content-Length: ...\r\n
 {{< /note >}}
 
 {{< note >}}
-WHAT WOULD HAPPEN IF WE DIDN'T PROVIDE INITIALIZATION
 {{< /note >}}
 
 ---
@@ -249,7 +244,7 @@ WHAT WOULD HAPPEN IF WE DIDN'T PROVIDE INITIALIZATION
 
 
 {{< note >}}
-WHY HAVING SHUTDOWN
+* we want to give time for ending all possible background processes
 {{< /note >}}
 
 ---
@@ -302,11 +297,4 @@ WHAT WOULD HAPPEN WITHOUT OPENING THE FILE?
 {{% /section %}}
 
 
-[//]: # (---)
 
-[//]: # (## Sources)
-
-[//]: # ()
-[//]: # (* https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2)
-
-[//]: # (* https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/)

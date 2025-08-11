@@ -42,11 +42,8 @@ LSP in short
 <aside class="notes">
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
+* every time we need a language support we call the server, and it gives us the information we need
 * server can be reused
-
-WHAT EXACTLY SERVER GIVE US
-SERVER SAVES FILES ON ITS SIDE
-(IF THE LANGUAGE IS EXPOSED BY LSP ITSELF?)
 </aside>
 </section><section>
 <h2 id="what-is-lsp">What is LSP?</h2>
@@ -97,7 +94,7 @@ SERVER SAVES FILES ON ITS SIDE
 </ul>
 <aside class="notes">
 * defined by the LSP specification
-<p>HOW DOES IT ENABLE BACKWARD CAPABILITY</p>
+* if one of the entities uses older version it does not have newer capabilities -> backward compatibility
 </aside>
 
 </section>
@@ -115,12 +112,12 @@ SERVER SAVES FILES ON ITS SIDE
 <ul>
 <li>treated as an event</li>
 <li>must not get a response</li>
-<li>does not have id</li>
 </ul>
 </li>
 </ol>
 <aside class="notes">
-WHY DO WE NEED NOTIFICATIONS EVEN -> GIVE EXAMPLE LOGS
+* NOTIFICATIONS: cluttering the communication, would have to spend additional time waiting for a response
+* LOGI
 </aside>
 </section><section>
 <h3 id="message-structure">Message structure</h3>
@@ -233,7 +230,6 @@ WHY DO WE NEED NOTIFICATIONS EVEN -> GIVE EXAMPLE LOGS
 * Establishing capabilities
 </aside>
 <aside class="notes">
-WHAT WOULD HAPPEN IF WE DIDN'T PROVIDE INITIALIZATION
 </aside>
 </section><section>
 <h3 id="shutdown">Shutdown</h3>
@@ -242,7 +238,7 @@ WHAT WOULD HAPPEN IF WE DIDN'T PROVIDE INITIALIZATION
 * in result: null
   </aside>
 <aside class="notes">
-WHY HAVING SHUTDOWN
+* we want to give time for ending all possible background processes
 </aside>
 </section><section>
 <h3 id="other-lifecycle-capabilities">Other lifecycle capabilities</h3>
@@ -454,6 +450,12 @@ and retrieve a result of type <code>List&lt;CompletionItem&gt;</code> or <code>C
 </section><section>
 <h3 id="recap-scheme">Recap Scheme</h3>
 <img src="img/lsp-user-editor-server-interactions.png" height=850>
+</section><section>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2">https://medium.com/@malintha1996/understanding-the-language-server-protocol-5c0ba3ac83d2</a></li>
+<li><a href="https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/">https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/</a></li>
+</ul>
 </section>
 
 </div>
