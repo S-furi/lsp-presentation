@@ -12,6 +12,10 @@
 * IDE or simpler editor.
 * autocompletion, goto definition, or documentation on hover
 * server can be reused
+
+WHAT EXACTLY SERVER GIVE US
+SERVER SAVES FILES ON ITS SIDE
+(IF THE LANGUAGE IS EXPOSED BY LSP ITSELF?)
 &lt;/aside>
 &lt;hr>
 &lt;h2 id="what-is-lsp">What is LSP?&lt;/h2>
